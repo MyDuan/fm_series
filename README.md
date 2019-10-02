@@ -3,7 +3,7 @@
 ### Abstruct
 Use tensorflow to write fm / ffm / deepfm(comming soon) /...
 
-### sreucture:
+### structure:
 - lib/fm.py -> fm model written by python normal
 - lib/tensorflow_fm.py -> fm model written by tensorflow
 - lib/tensorflow_ffm.py -> ffm model written by tensorflow
