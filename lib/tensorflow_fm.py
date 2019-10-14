@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 loss_list = []
 
+
 def model(x, n, k):
     w_0 = tf.Variable([0.0], trainable=True, name='w_0')
     w = tf.Variable(tf.truncated_normal([n, 1], stddev=0.1), name='w')
