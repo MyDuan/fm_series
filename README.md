@@ -1,16 +1,18 @@
 # fm_series
 
 ### Abstruct
-Use tensorflow to write fm / ffm / deepfm(comming soon) /...
+Use tensorflow to write fm / ffm / deepfm / (comming soon)...
 
 ### structure:
 - lib/fm.py -> fm model written by python normal
 - lib/tensorflow_fm.py -> fm model written by tensorflow
 - lib/tensorflow_ffm.py -> ffm model written by tensorflow
+- lib/tensorflow_deepfm.py -> deepfm model written by tensorflow
 
 - notebookfile/fm_fit_func_and_classification.ipynb -> run fm.py
 - notebookfile/tensorflow_fm.ipynb -> run tensorflow_fm.py
 - notebookfile/tensorflow_ffm.ipynb -> run tensorflow_ffm.py
+- notebookfile/tensorflow_deepfm.ipynb -> run tensorflow_deepfm.py
 
 
 ### How to run
