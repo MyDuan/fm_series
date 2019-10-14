@@ -48,3 +48,21 @@ def build_iris_with_field(path):
     features_train = np.array(features_list).reshape([100, 8])
     label_train = np.array(label_list).reshape([100, 1])
     return label_train, features_train
+
+
+def build_iris_deep_fm(path):
+    data = open(path)
+    label_list = []
+    features_list = []
+    feild_list = []
+    for line in data.readlines():
+        feature_label = line.strip().split(',')
+        label_list.append(int(feature_label[-1]))
+        features = list(map(lambda x: float(x), feature_label[0:-1]))
+        features_list.append(features)
+        feild_list.append([0, 1, 2, 3])
+
+    features_train = np.array(features_list).reshape([100, 4])
+    feild_of_train = np.array(feild_list).reshape([100, 4])
+    label_train = np.array(label_list).reshape([100, 1])
+    return label_train, features_train, feild_of_train
