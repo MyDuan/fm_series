@@ -1,5 +1,5 @@
 import numpy as np
-
+import pandas as pd
 
 
 def build_sin():
@@ -66,3 +66,15 @@ def build_iris_deep_fm(path):
     feild_of_train = np.array(feild_list).reshape([100, 4])
     label_train = np.array(label_list).reshape([100, 1])
     return label_train, features_train, feild_of_train
+
+
+def build_census_income(train_file, test_file):
+
+    feature_colums = ["age", "workclass", "fnlwgt", "education", "education_num",
+                      "marital_status", "occupation", "relationship", "race", "gender",
+                      "capital_gain", "capital_loss", "hours_per_week", "native_country", "income_bracket"]
+    df_train = pd.read_csv(train_file, names=feature_colums, skipinitialspace=True)
+    df_test = pd.read_csv(test_file, names=feature_colums, skipinitialspace=True, skiprows=1)
+    df_train['label'] = (df_train['income_bracket'].apply(lambda x: '>50K' in x)).astype(int)
+    df_test['label'] = (df_test['income_bracket'].apply(lambda x: '>50K' in x)).astype(int)
+    return df_train, df_test
