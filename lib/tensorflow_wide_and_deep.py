@@ -5,7 +5,7 @@ train_file = './data/adult.data'
 test_file = './data/adult.test'
 df_train, df_test = build_data.build_census_income(train_file, test_file)
 
-_HASH_BUCKET_SIZE = 100
+_HASH_BUCKET_SIZE = 1000
 
 
 def input_fn(df):
@@ -36,11 +36,11 @@ def model():
     gender = tf.contrib.layers.sparse_column_with_keys(column_name="gender", keys=["Female", "Male"])
     race = tf.contrib.layers.sparse_column_with_keys(column_name="race", keys=["Amer-Indian-Eskimo", "Asian-Pac-Islander", "Black", "Other",
                                                        "White"])
-    education = tf.contrib.layers.sparse_column_with_hash_bucket("education", hash_bucket_size=1000)
-    relationship = tf.contrib.layers.sparse_column_with_hash_bucket("relationship", hash_bucket_size=100)
-    workclass = tf.contrib.layers.sparse_column_with_hash_bucket("workclass", hash_bucket_size=100)
-    occupation = tf.contrib.layers.sparse_column_with_hash_bucket("occupation", hash_bucket_size=1000)
-    native_country = tf.contrib.layers.sparse_column_with_hash_bucket("native_country", hash_bucket_size=1000)
+    education = tf.contrib.layers.sparse_column_with_hash_bucket("education", hash_bucket_size=_HASH_BUCKET_SIZE)
+    relationship = tf.contrib.layers.sparse_column_with_hash_bucket("relationship", hash_bucket_size=_HASH_BUCKET_SIZE)
+    workclass = tf.contrib.layers.sparse_column_with_hash_bucket("workclass", hash_bucket_size=_HASH_BUCKET_SIZE)
+    occupation = tf.contrib.layers.sparse_column_with_hash_bucket("occupation", hash_bucket_size=_HASH_BUCKET_SIZE)
+    native_country = tf.contrib.layers.sparse_column_with_hash_bucket("native_country", hash_bucket_size=_HASH_BUCKET_SIZE)
 
     age = tf.contrib.layers.real_valued_column("age")
     age_buckets = tf.contrib.layers.bucketized_column(age, boundaries=[18, 25, 30, 35, 40, 45, 50, 55, 60, 65])
@@ -49,11 +49,17 @@ def model():
     capital_loss = tf.contrib.layers.real_valued_column("capital_loss")
     hours_per_week = tf.contrib.layers.real_valued_column("hours_per_week")
 
-    wide_columns = [
-        gender, race, native_country, education, occupation, workclass, relationship, age_buckets,
-        tf.contrib.layers.crossed_column([education, occupation], hash_bucket_size=int(1e4)),
-        tf.contrib.layers.crossed_column([native_country, occupation], hash_bucket_size=int(1e4)),
-        tf.contrib.layers.crossed_column([age_buckets, education, occupation], hash_bucket_size=int(1e6))]
+    base_columns = [
+        gender, race, native_country, education, occupation, workclass, relationship, age_buckets
+    ]
+
+    crossed_columns = [
+        tf.contrib.layers.crossed_column([education, occupation], hash_bucket_size=_HASH_BUCKET_SIZE),
+        tf.contrib.layers.crossed_column([native_country, occupation], hash_bucket_size=_HASH_BUCKET_SIZE),
+        tf.contrib.layers.crossed_column([age_buckets, education, occupation], hash_bucket_size=_HASH_BUCKET_SIZE)
+    ]
+
+    wide_columns = base_columns + crossed_columns
 
     deep_columns = [
         tf.contrib.layers.embedding_column(workclass, dimension=8),
