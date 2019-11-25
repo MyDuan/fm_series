@@ -11,6 +11,8 @@ jupyter = "*"
 jupyterlab = "*"
 sklearn = "*"
 tensorflow = "==1.14.0"
+torch = "*"
+torchvision = "*"
 
 [dev-packages]
 
